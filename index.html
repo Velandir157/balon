@@ -1,47 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Move to Google Maps</title>
+
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Project Balon-Talon</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+
 </head>
 <body>
-    <h1>Move to Google Maps</h1>
-    <p>Coordinates:</p>
+
+    <h1>Project Balon-Talon</h1>
     <p id="latitude">Latitude: No data</p>
     <p id="longitude">Longitude: No data</p>
     <button type="button" id="load">Load data</button>
     <button type="button" id="show">Show location</button>
+    <img src="mem.webp" alt="mem">
+
 </body>
 
-<script>
-    let latitudeElement = document.getElementById("latitude");
-    let longitudeElement = document.getElementById("longitude");
-    let loadButton = document.getElementById("load");
-    let showButton = document.getElementById("show");
-
-    let latitude = 0;
-    let longitude = 0;
-
-    loadButton.addEventListener("click", function() {
-        const params = new URLSearchParams(window.location.search);
-        latitude = params.get("lat");
-        longitude = params.get("lng");
-
-        latitudeElement.innerHTML = "Latitude: " + latitude;
-        longitudeElement.innerHTML = "Longitude: " + longitude;
-    });
-
-    showButton.addEventListener("click", function() {
-        if (latitude && longitude) {
-            const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
-            window.open(url, "_blank");
-        } else {
-            alert("No coordinates in the URL. Please provide coordinates.");
-        }
-    });
-</script>
-
+    <script src='main.js'></script>
+    
 </html>
-
-
