@@ -5,48 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Znajdź lokalizację</title>
 </head>
-
 <body>
     <h1>Znajdź lokalizację</h1>
+    <p>Ta strona automatycznie otwiera Mapy Google na podstawie przesłanych współrzędnych.</p>
     <p id="szerokosc">Aktualna szerokość geograficzna: BRAK</p>
     <p id="wysokosc">Aktualna długość geograficzna: BRAK</p>
-    <!-- Dodaj przycisk do otwarcia mapy Google -->
-    <button id="guzik">Otwórz mapę Google</button>
-</body>
+    <button type="button" id="guzik">Otwórz mapę Google</button>
 
 <script>
     let latitude = null;
     let longitude = null;
 
+    // Funkcja do odczytania współrzędnych z URL
     function getCoordinatesFromURL() {
         const params = new URLSearchParams(window.location.search); // Pobierz parametry z URL
         latitude = params.get("lat"); // Odczytaj szerokość geograficzną
         longitude = params.get("lng"); // Odczytaj długość geograficzną
 
         console.log(latitude, " ", longitude);
-        
-        // Zaktualizuj widoczność współrzędnych na stronie
+
+        // Zaktualizuj zawartość HTML o pobrane współrzędne
         if (latitude && longitude) {
             document.getElementById("szerokosc").innerHTML = "Aktualna szerokość geograficzna: " + latitude;
             document.getElementById("wysokosc").innerHTML = "Aktualna długość geograficzna: " + longitude;
-        } 
+        } else {
+            document.getElementById("szerokosc").innerHTML = "Aktualna szerokość geograficzna: BRAK";
+            document.getElementById("wysokosc").innerHTML = "Aktualna długość geograficzna: BRAK";
+        }
     }
 
-    window.onload = getCoordinatesFromURL;  // Uruchom funkcję przy załadowaniu strony
+    // Uruchomienie funkcji przy załadowaniu strony
+    window.onload = getCoordinatesFromURL;
 
     let guzik = document.getElementById("guzik");
-    if (guzik) {  // Sprawdź, czy przycisk istnieje
-        guzik.addEventListener("click", function() {
-            if (latitude && longitude) {
-                const url = `https://www.google.com/maps?q=${latitude},${longitude}`; 
-                window.open(url, "_blank"); // Otwórz Mapy Google w nowej karcie
-            } else {
-                alert("Proszę wprowadzić poprawne współrzędne w URL.");
-            }
-        });
-    }
-</script>
 
+    guzik.addEventListener("click", function() {
+        if (latitude && longitude) {
+            // Jeśli współrzędne są dostępne, otwieramy mapę Google
+            const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            window.open(url, "_blank"); // Otwórz Mapy Google w nowej karcie
+        } else {
+            alert("Proszę wprowadzić poprawne współrzędne w URL.");
+        }
+    });
+</script>
+</body>
 </html>
+
 
 
