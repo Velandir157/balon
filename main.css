@@ -1,0 +1,23 @@
+body {
+    background-color: bisque;
+}
+
+h1 {
+    text-align: center;
+}
+
+p, button {
+    width: 100%;
+    font-size: larger;
+    margin-top: 1%;
+    font-weight: bolder;
+}
+
+button {
+    height: 50px;
+}
+
+img {
+    width: 100%;
+    margin-top: 3%;
+}
