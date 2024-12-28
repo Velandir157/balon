@@ -1,14 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Znajdź lokalizację</title>
 </head>
+
 <body>
-    <p>Super stronka</p>
+    <h1>Znajdź lokalizację</h1>
+    <p>Ta strona automatycznie otwiera Mapy Google na podstawie przesłanych współrzędnych.</p>
+    <p id="szerokosc">Aktualna szerokość geograficzna: BRAK</p>
+    <p id="wysokosc">Aktualna długość geograficzna: BRAK</p>
+    <button type="button" id="guzik">Otwórz mapę Google</button>
 </body>
+
+<script>
+    let latitude = null;
+    let longitude = null;
+
+    function getCoordinatesFromURL() {
+        const params = new URLSearchParams(window.location.search); 
+        latitude = params.get("lat"); 
+        longitude = params.get("lng"); 
+        
+        if (latitude && longitude) {
+            document.getElementById("szerokosc").innerHTML = "Aktualna szerokość geograficzna: " + latitude;
+            document.getElementById("wysokosc").innerHTML = "Aktualna długość geograficzna: " + longitude;
+        }
+    }
+
+    window.onload = getCoordinatesFromURL;  
+
+    let guzik = document.getElementById("guzik");
+    guzik.addEventListener("click", function() {
+        if (latitude && longitude) {
+            const url = `https://www.google.com/maps?q=${latitude},${longitude}`; 
+            window.open(url, "_blank"); 
+        } else {
+            alert("Proszę wprowadzić poprawne współrzędne w URL.");
+        }
+    });
+</script>
+
 </html>
