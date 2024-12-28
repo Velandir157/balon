@@ -1,53 +1,47 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Znajdź lokalizację</title>
+    <title>Move to Google Maps</title>
 </head>
 <body>
-    <h1>Znajdź lokalizację</h1>
-    <p id="szerokosc">Aktualna szerokość geograficzna: BRAK</p>
-    <p id="wysokosc">Aktualna długość geograficzna: BRAK</p>
-    <button type="button" id="guzik">Otwórz mapę Google</button>
-
-    <script>
-        let latitude = null;
-        let longitude = null;
-
-        function getCoordinatesFromURL() {
-            const params = new URLSearchParams(window.location.search); // Pobierz parametry z URL
-            latitude = params.get("lat"); // Odczytaj szerokość geograficzną
-            longitude = params.get("lng"); // Odczytaj długość geograficzną
-
-            console.log(latitude, " ", longitude);
-            
-            // Zaktualizuj widoczność współrzędnych na stronie
-            if (latitude && longitude) {
-                document.getElementById("szerokosc").innerHTML = "Aktualna szerokość geograficzna: " + latitude;
-                document.getElementById("wysokosc").innerHTML = "Aktualna długość geograficzna: " + longitude;
-            } else {
-                document.getElementById("szerokosc").innerHTML = "Brak danych o szerokości geograficznej.";
-                document.getElementById("wysokosc").innerHTML = "Brak danych o długości geograficznej.";
-            }
-        }
-
-        window.onload = getCoordinatesFromURL;  // Uruchom funkcję przy załadowaniu strony
-
-        // Obsługuje kliknięcie przycisku, aby otworzyć Mapy Google
-        let guzik = document.getElementById("guzik");
-        guzik.addEventListener("click", function() {
-            if (latitude && longitude) {
-                const url = `https://www.google.com/maps?q=${latitude},${longitude}`; 
-                window.open(url, "_blank"); // Otwórz Mapy Google w nowej karcie
-            } else {
-                alert("Proszę wprowadzić poprawne współrzędne w URL.");
-            }
-        });
-    </script>
+    <h1>Move to Google Maps</h1>
+    <p>Coordinates:</p>
+    <p id="latitude">Latitude: No data</p>
+    <p id="longitude">Longitude: No data</p>
+    <button type="button" id="load">Load data</button>
+    <button type="button" id="show">Show location</button>
 </body>
+
+<script>
+    let latitudeElement = document.getElementById("latitude");
+    let longitudeElement = document.getElementById("longitude");
+    let loadButton = document.getElementById("load");
+    let showButton = document.getElementById("show");
+
+    let latitude = 0;
+    let longitude = 0;
+
+    loadButton.addEventListener("click", function() {
+        const params = new URLSearchParams(window.location.search);
+        latitude = params.get("lat");
+        longitude = params.get("lng");
+
+        latitudeElement.innerHTML = "Latitude: " + latitude;
+        longitudeElement.innerHTML = "Longitude: " + longitude;
+    });
+
+    showButton.addEventListener("click", function() {
+        if (latitude && longitude) {
+            const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            window.open(url, "_blank");
+        } else {
+            alert("No coordinates in the URL. Please provide coordinates.");
+        }
+    });
+</script>
+
 </html>
-
-
 
 
