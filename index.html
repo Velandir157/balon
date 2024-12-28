@@ -4,42 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Znajdź lokalizację</title>
-</head>
+    <script>
+        function initMap() {
+            const params = new URLSearchParams(window.location.search);
+            const latitude = params.get("lat");
+            const longitude = params.get("lng");
 
+            if (latitude && longitude) {
+                const location = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
+
+                const map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 14,
+                    center: location,
+                });
+
+                const marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    title: "Lokalizacja",
+                });
+            } else {
+                alert("Brak współrzędnych w URL. Proszę upewnić się, że zostały przesłane.");
+            }
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+</head>
 <body>
     <h1>Znajdź lokalizację</h1>
     <p>Ta strona automatycznie otwiera Mapy Google na podstawie przesłanych współrzędnych.</p>
-    <p id="szerokosc">Aktualna szerokość geograficzna: BRAK</p>
-    <p id="wysokosc">Aktualna długość geograficzna: BRAK</p>
-    <button type="button" id="guzik">Otwórz mapę Google</button>
+    
+    <!-- Miejsce na mapę -->
+    <div id="map" style="height: 450px; width: 600px;"></div>
 </body>
-
-<script>
-    let latitude = null;
-    let longitude = null;
-
-    function getCoordinatesFromURL() {
-        const params = new URLSearchParams(window.location.search); 
-        latitude = params.get("lat"); 
-        longitude = params.get("lng"); 
-        
-        if (latitude && longitude) {
-            document.getElementById("szerokosc").innerHTML = "Aktualna szerokość geograficzna: " + latitude;
-            document.getElementById("wysokosc").innerHTML = "Aktualna długość geograficzna: " + longitude;
-        }
-    }
-
-    window.onload = getCoordinatesFromURL;  
-
-    let guzik = document.getElementById("guzik");
-    guzik.addEventListener("click", function() {
-        if (latitude && longitude) {
-            const url = `https://www.google.com/maps?q=${latitude},${longitude}`; 
-            window.open(url, "_blank"); 
-        } else {
-            alert("Proszę wprowadzić poprawne współrzędne w URL.");
-        }
-    });
-</script>
-
 </html>
+
